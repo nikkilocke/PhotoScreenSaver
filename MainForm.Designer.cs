@@ -56,9 +56,9 @@
 			this.lblDate.BorderColor = System.Drawing.Color.Black;
 			this.lblDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.lblDate.ForeColor = System.Drawing.Color.White;
-			this.lblDate.Location = new System.Drawing.Point(531, 760);
+			this.lblDate.Location = new System.Drawing.Point(511, 760);
 			this.lblDate.Name = "lblDate";
-			this.lblDate.Size = new System.Drawing.Size(274, 40);
+			this.lblDate.Size = new System.Drawing.Size(294, 40);
 			this.lblDate.TabIndex = 3;
 			this.lblDate.TextAlign = System.Drawing.ContentAlignment.BottomRight;
 			this.lblDate.Click += new System.EventHandler(this.MainForm_Click);
@@ -70,9 +70,9 @@
 			this.lblName.BorderColor = System.Drawing.Color.Black;
 			this.lblName.Font = new System.Drawing.Font("Microsoft Sans Serif", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.lblName.ForeColor = System.Drawing.Color.White;
-			this.lblName.Location = new System.Drawing.Point(-7, 760);
+			this.lblName.Location = new System.Drawing.Point(0, 760);
 			this.lblName.Name = "lblName";
-			this.lblName.Size = new System.Drawing.Size(530, 40);
+			this.lblName.Size = new System.Drawing.Size(510, 40);
 			this.lblName.TabIndex = 2;
 			this.lblName.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			this.lblName.Click += new System.EventHandler(this.MainForm_Click);
@@ -85,7 +85,7 @@
 			this.lblFolder.BorderColor = System.Drawing.Color.Black;
 			this.lblFolder.Font = new System.Drawing.Font("Microsoft Sans Serif", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.lblFolder.ForeColor = System.Drawing.Color.White;
-			this.lblFolder.Location = new System.Drawing.Point(-7, 0);
+			this.lblFolder.Location = new System.Drawing.Point(0, 0);
 			this.lblFolder.Name = "lblFolder";
 			this.lblFolder.Size = new System.Drawing.Size(812, 40);
 			this.lblFolder.TabIndex = 1;
