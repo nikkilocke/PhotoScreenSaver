@@ -67,15 +67,15 @@ namespace PhotoScreenSaver
 					}
 				} catch {
 				}
-				move(lblFolder, margins[2], margins[0]);
-				lblFolder.Size = new Size(lblFolder.Size.Width - (margins[2] + margins[3]), lblFolder.Size.Height);
-				move(lblName, margins[2], -margins[1]);
-				move(lblDate, -margins[3], -margins[1]);
+				moveAndShrink(lblFolder, margins[2], margins[0], margins[2] + margins[3]);
+				moveAndShrink(lblName, margins[2], -margins[1], margins[2]);
+				moveAndShrink(lblDate, -margins[3], -margins[1], margins[3]);
 			}
         }
 
-		void move(Control c, int x, int y) {
+		void moveAndShrink(Control c, int x, int y, int w) {
 			c.Location = new Point(c.Location.X + x, c.Location.Y + y);
+			c.Size = new Size(c.Width - w, c.Height);
 		}
 
         //This constructor is the handle to the select screensaver dialog preview window
@@ -224,6 +224,9 @@ namespace PhotoScreenSaver
 					break;
 				case (int)Keys.Right:
 					break;
+				case (int)Keys.Escape:
+					Application.Exit();
+					return;
 				default:
 					if (!IsPreviewMode) //disable exit functions for preview
 						Application.Exit();
