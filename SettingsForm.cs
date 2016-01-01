@@ -35,6 +35,7 @@ namespace PhotoScreenSaver {
 				PhotoScreenSaver.Properties.Settings.Default.Save();
 			} catch {
 			}
+			Close();
 		}
 
 		private void btnCancel_Click(object sender, EventArgs e) {

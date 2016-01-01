@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
 			this.pictureBox1 = new System.Windows.Forms.PictureBox();
-			this.lblFolder = new System.Windows.Forms.Label();
-			this.lblName = new System.Windows.Forms.Label();
-			this.lblDate = new System.Windows.Forms.Label();
+			this.lblFolder = new BorderLabel();
+			this.lblName = new BorderLabel();
+			this.lblDate = new BorderLabel();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -58,6 +58,8 @@
 			this.lblFolder.Name = "lblFolder";
 			this.lblFolder.Size = new System.Drawing.Size(812, 40);
 			this.lblFolder.TabIndex = 1;
+			this.lblDate.TextAlign = System.Drawing.ContentAlignment.TopLeft;
+			this.lblFolder.BorderColor = System.Drawing.Color.Black;
 			// 
 			// lblName
 			// 
@@ -70,6 +72,7 @@
 			this.lblName.Size = new System.Drawing.Size(530, 40);
 			this.lblName.TabIndex = 2;
 			this.lblName.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+			this.lblName.BorderColor = System.Drawing.Color.Black;
 			// 
 			// lblDate
 			// 
@@ -82,6 +85,7 @@
 			this.lblDate.Size = new System.Drawing.Size(274, 40);
 			this.lblDate.TabIndex = 3;
 			this.lblDate.TextAlign = System.Drawing.ContentAlignment.BottomRight;
+			this.lblDate.BorderColor = System.Drawing.Color.Black;
 			// 
 			// MainForm
 			// 
@@ -111,9 +115,9 @@
         #endregion
 
 		private System.Windows.Forms.PictureBox pictureBox1;
-		private System.Windows.Forms.Label lblFolder;
-		private System.Windows.Forms.Label lblName;
-		private System.Windows.Forms.Label lblDate;
+		private BorderLabel lblFolder;
+		private BorderLabel lblName;
+		private BorderLabel lblDate;
 
     }
 }

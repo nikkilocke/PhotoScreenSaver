@@ -52,24 +52,32 @@ namespace PhotoScreenSaver
         public MainForm(Rectangle Bounds)
         {
             InitializeComponent();
-			Log("Initial bounds {0}", Bounds);
-			var m = Regex.Match(PhotoScreenSaver.Properties.Settings.Default.Margins, @"(\d+)(?:,(\d+))*");
+			lblFolder.Parent = lblName.Parent = lblDate.Parent = pictureBox1;
+			Log("Bounds {0}", Bounds);
+			this.Bounds = Bounds;
+			Log("Margin {0}", PhotoScreenSaver.Properties.Settings.Default.Margins);
+			var m = Regex.Match(PhotoScreenSaver.Properties.Settings.Default.Margins, @"(\d+)(?:,(\d+))(?:,(\d+))(?:,(\d+))");
 			if (m.Success) {
-				int[] bounds = new int[] { Bounds.Top, Bounds.Bottom, Bounds.Left, Bounds.Right };
+				// Top, Bottom, Left, Right
+				int[] bounds = new int[] { 0, 0, 0, 0 };
 				try {
 					for (int i = 0; i < 4; i++) {
 						bounds[i] = int.Parse(m.Groups[i + 1].ToString());
 					}
 				} catch {
 				}
-				Bounds = new Rectangle(bounds[2], bounds[0], bounds[3] - bounds[2] + 2, bounds[1] = bounds[0] + 1);
+				move(lblFolder, bounds[2], bounds[0]);
+				lblFolder.Size = new Size(lblFolder.Size.Width - (bounds[2] + bounds[3]), lblFolder.Size.Height);
+				move(lblName, bounds[2], -bounds[1]);
+				move(lblDate, -bounds[3], -bounds[1]);
 			}
-			Log("Final bounds {0}", Bounds);
-			this.Bounds = Bounds;
-			this.Refresh();
             //hide the cursor
             Cursor.Hide();
         }
+
+		void move(Control c, int x, int y) {
+			c.Location = new Point(c.Location.X + x, c.Location.Y + y);
+		}
 
         //This constructor is the handle to the select screensaver dialog preview window
         //It is used when in preview mode (/p)
@@ -172,7 +180,7 @@ namespace PhotoScreenSaver
 			string name = undoStack[current];
 			Despatch(delegate() {
 				lblFolder.Text = Path.GetFileName(Path.GetDirectoryName(name));
-				lblDate.Text = new FileInfo(name).LastWriteTime.Date.ToString();
+				lblDate.Text = new FileInfo(name).LastWriteTime.Date.ToString("d");
 				lblName.Text = Path.GetFileNameWithoutExtension(name);
 				if (pictureBox1.Image != null)
 					pictureBox1.Image.Dispose();
@@ -238,16 +246,13 @@ namespace PhotoScreenSaver
 
         private void MainForm_MouseMove(object sender, MouseEventArgs e)
         {
-            if (!IsPreviewMode) //disable exit functions for preview
-            {
+            if (!IsPreviewMode) { //disable exit functions for preview
                 //see if originalLocation has been set
-                if (OriginalLocation.X == int.MaxValue & OriginalLocation.Y == int.MaxValue)
-                {
+                if (OriginalLocation.X == int.MaxValue & OriginalLocation.Y == int.MaxValue) {
                     OriginalLocation = e.Location;
                 }
                 //see if the mouse has moved more than 20 pixels in any direction. If it has, close the application.
-                if (Math.Abs(e.X - OriginalLocation.X) > 20 | Math.Abs(e.Y - OriginalLocation.Y) > 20)
-                {
+                if (Math.Abs(e.X - OriginalLocation.X) > 20 | Math.Abs(e.Y - OriginalLocation.Y) > 20) {
                     Application.Exit();
                 }
             }
