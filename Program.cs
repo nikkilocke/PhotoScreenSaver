@@ -40,7 +40,10 @@ namespace PhotoScreenSaver
 								for (int i = 0; i < 4; i++) {
 									rect[i] = int.Parse(m.Groups[i + 1].ToString());
 								}
-								Application.Run(new MainForm(new Rectangle(rect[0], rect[1], rect[2], rect[3])));
+								MainForm screensaver = new MainForm(new Rectangle(rect[0], rect[1], rect[2], rect[3])) {
+									IsPreviewMode = args[0][1] == 'B'
+								};
+								Application.Run(screensaver);
 								return;
 							} catch {
 							}

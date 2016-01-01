@@ -33,12 +33,13 @@ namespace PhotoScreenSaver
 
         #endregion
 
-        bool IsPreviewMode = false;
+        public bool IsPreviewMode = false;
 
 		List<string> undoStack = new List<string>();
 		int current;
 		static public string[] Folders;
 		AutoResetEvent signal = new AutoResetEvent(false);
+		Rectangle bounds;
 
         #region Constructors
 
@@ -54,25 +55,23 @@ namespace PhotoScreenSaver
             InitializeComponent();
 			lblFolder.Parent = lblName.Parent = lblDate.Parent = pictureBox1;
 			Log("Bounds {0}", Bounds);
-			this.Bounds = Bounds;
+			bounds = Bounds;
 			Log("Margin {0}", PhotoScreenSaver.Properties.Settings.Default.Margins);
 			var m = Regex.Match(PhotoScreenSaver.Properties.Settings.Default.Margins, @"(\d+)(?:,(\d+))(?:,(\d+))(?:,(\d+))");
 			if (m.Success) {
 				// Top, Bottom, Left, Right
-				int[] bounds = new int[] { 0, 0, 0, 0 };
+				int[] margins = new int[] { 0, 0, 0, 0 };
 				try {
 					for (int i = 0; i < 4; i++) {
-						bounds[i] = int.Parse(m.Groups[i + 1].ToString());
+						margins[i] = int.Parse(m.Groups[i + 1].ToString());
 					}
 				} catch {
 				}
-				move(lblFolder, bounds[2], bounds[0]);
-				lblFolder.Size = new Size(lblFolder.Size.Width - (bounds[2] + bounds[3]), lblFolder.Size.Height);
-				move(lblName, bounds[2], -bounds[1]);
-				move(lblDate, -bounds[3], -bounds[1]);
+				move(lblFolder, margins[2], margins[0]);
+				lblFolder.Size = new Size(lblFolder.Size.Width - (margins[2] + margins[3]), lblFolder.Size.Height);
+				move(lblName, margins[2], -margins[1]);
+				move(lblDate, -margins[3], -margins[1]);
 			}
-            //hide the cursor
-            Cursor.Hide();
         }
 
 		void move(Control c, int x, int y) {
@@ -180,7 +179,7 @@ namespace PhotoScreenSaver
 			string name = undoStack[current];
 			Despatch(delegate() {
 				lblFolder.Text = Path.GetFileName(Path.GetDirectoryName(name));
-				lblDate.Text = new FileInfo(name).LastWriteTime.Date.ToString("d");
+				lblDate.Text = new FileInfo(name).LastWriteTime.Date.ToString("Y");
 				lblName.Text = Path.GetFileNameWithoutExtension(name);
 				if (pictureBox1.Image != null)
 					pictureBox1.Image.Dispose();
@@ -259,5 +258,11 @@ namespace PhotoScreenSaver
         }
 
         #endregion
+
+		private void MainForm_Load(object sender, EventArgs e) {
+			Bounds = bounds;
+			//hide the cursor
+			Cursor.Hide();
+		}
     }
 }
