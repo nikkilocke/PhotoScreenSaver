@@ -68,8 +68,8 @@ namespace PhotoScreenSaver
 				} catch {
 				}
 				moveAndShrink(lblFolder, margins[2], margins[0], margins[2] + margins[3]);
-				moveAndShrink(lblName, margins[2], -margins[1], margins[2]);
-				moveAndShrink(lblDate, -margins[3], -margins[1], margins[3]);
+				moveAndShrink(lblName, margins[2], -margins[1], margins[2] + margins[3]);
+				moveAndShrink(lblDate, -margins[3], -margins[1], 0);
 			}
         }
 
