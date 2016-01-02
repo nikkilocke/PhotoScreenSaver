@@ -18,18 +18,17 @@ namespace PhotoScreenSaver
 				PhotoScreenSaver.Properties.Settings.Default.Folder = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
 				PhotoScreenSaver.Properties.Settings.Default.Save();
 			}
+			MainForm.Log("PhotoScreenSaver {0}", string.Join(" ", args));
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 			MainForm.Folders = Directory.EnumerateDirectories(PhotoScreenSaver.Properties.Settings.Default.Folder).Where(d =>
 				!File.Exists(Path.Combine(d, "ignore")) && Directory.EnumerateFiles(d, "*.jpg").FirstOrDefault() != null).ToArray();
 			if (args.Length > 0) {
+				string arg2 = args.Length > 1 ? args[1] : args[0].Length > 3 ? args[0].Substring(3) : "";
 				switch (args[0].ToLower().Trim().Substring(0, 2)) {
 					case "/p": //preview
 						//show the screen saver preview
-						Application.Run(new MainForm(new IntPtr(long.Parse(args[1])))); //args[1] is the handle to the preview window
-						return;
-					case "/c": //configure
-						new SettingsForm().ShowDialog();
+						Application.Run(new MainForm(new IntPtr(long.Parse(arg2))));
 						return;
 					case "/b":	// bounds
 						var m = Regex.Match(args[1], @"(\d+)(?:,(\d+))(?:,(\d+))(?:,(\d+))");
@@ -50,14 +49,17 @@ namespace PhotoScreenSaver
 						}
 						break;
 					case "/s": //show
-					default: //an argument was passed, but it wasn't /s, /p, or /c, so we don't care wtf it was
-						//show the screen saver anyway
+						//run the screen saver
+						ShowScreensaver();
+						return;
+					case "/c": //configure
+						// new SettingsForm(new IntPtr(long.Parse(arg2))).Show();
 						break;
 				}
             }
-            //run the screen saver
-            ShowScreensaver();
-        }
+			// Default action is to show settings dialog
+			new SettingsForm().ShowDialog();
+		}
 
         //will show the screen saver
         static void ShowScreensaver()

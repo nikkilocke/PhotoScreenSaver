@@ -18,6 +18,12 @@ namespace PhotoScreenSaver {
 			ckDebug.Checked = PhotoScreenSaver.Properties.Settings.Default.Debug;
 		}
 
+		public SettingsForm(IntPtr PreviewHandle)
+			: this() {
+			//set the preview window as the parent of this window
+			MainForm.SetParent(this.Handle, PreviewHandle);
+		}
+
 		private void btnBrowse_Click(object sender, EventArgs e) {
 			folderBrowserDialog1.SelectedPath = txtFolder.Text;
 			if (folderBrowserDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK) {

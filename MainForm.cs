@@ -20,16 +20,16 @@ namespace PhotoScreenSaver
         #region Preview API's
 
         [DllImport("user32.dll")]
-        static extern IntPtr SetParent(IntPtr hWndChild, IntPtr hWndNewParent);
+        public static extern IntPtr SetParent(IntPtr hWndChild, IntPtr hWndNewParent);
 
         [DllImport("user32.dll")]
-        static extern int SetWindowLong(IntPtr hWnd, int nIndex, IntPtr dwNewLong);
+		public static extern int SetWindowLong(IntPtr hWnd, int nIndex, IntPtr dwNewLong);
 
         [DllImport("user32.dll", SetLastError = true)]
-        static extern int GetWindowLong(IntPtr hWnd, int nIndex);
+		public static extern int GetWindowLong(IntPtr hWnd, int nIndex);
 
         [DllImport("user32.dll")]
-        static extern bool GetClientRect(IntPtr hWnd, out Rectangle lpRect);
+		public static extern bool GetClientRect(IntPtr hWnd, out Rectangle lpRect);
 
         #endregion
 
@@ -56,21 +56,6 @@ namespace PhotoScreenSaver
 			lblFolder.Parent = lblName.Parent = lblDate.Parent = pictureBox1;
 			Log("Bounds {0}", Bounds);
 			bounds = Bounds;
-			Log("Margin {0}", PhotoScreenSaver.Properties.Settings.Default.Margins);
-			var m = Regex.Match(PhotoScreenSaver.Properties.Settings.Default.Margins, @"(\d+)(?:,(\d+))(?:,(\d+))(?:,(\d+))");
-			if (m.Success) {
-				// Top, Bottom, Left, Right
-				int[] margins = new int[] { 0, 0, 0, 0 };
-				try {
-					for (int i = 0; i < 4; i++) {
-						margins[i] = int.Parse(m.Groups[i + 1].ToString());
-					}
-				} catch {
-				}
-				moveAndShrink(lblFolder, margins[2], margins[0], margins[2] + margins[3]);
-				moveAndShrink(lblName, margins[2], -margins[1], margins[2] + margins[3]);
-				moveAndShrink(lblDate, -margins[3], -margins[1], 0);
-			}
         }
 
 		void moveAndShrink(Control c, int x, int y, int w) {
@@ -78,11 +63,24 @@ namespace PhotoScreenSaver
 			c.Size = new Size(c.Width - w, c.Height);
 		}
 
+		void logControl(Control c) {
+			Log("{0} {1},{2},{3},{4}", c.Name, c.Location.X, c.Location.Y, c.Size.Width, c.Size.Height);
+		}
+
+		void logControls() {
+			logControl(this);
+			logControl(pictureBox1);
+			logControl(lblFolder);
+			logControl(lblName);
+			logControl(lblDate);
+		}
+
         //This constructor is the handle to the select screensaver dialog preview window
         //It is used when in preview mode (/p)
         public MainForm(IntPtr PreviewHandle)
         {
             InitializeComponent();
+			lblFolder.Parent = lblName.Parent = lblDate.Parent = pictureBox1;
 
             //set the preview window as the parent of this window
             SetParent(this.Handle, PreviewHandle);
@@ -99,7 +97,21 @@ namespace PhotoScreenSaver
             this.Location = new Point(0, 0);
 
             IsPreviewMode = true;
+
+			if (this.Size.Width < 600 || this.Size.Height < 400) {
+				tinyLabel(lblFolder, false);
+				tinyLabel(lblName, true);
+				tinyLabel(lblDate, true);
+			}
         }
+
+		void tinyLabel(BorderLabel l, bool bottom) {
+			l.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			int s = 10;
+			if (bottom)
+				l.Location = new Point(l.Location.X, l.Location.Y + l.Size.Height - s);
+			l.Size = new Size(l.Size.Width, s);
+		}
 
         #endregion
 
@@ -187,17 +199,17 @@ namespace PhotoScreenSaver
 			});
 		}
 
-		void Log(string s) {
+		public static void Log(string s) {
 			if (PhotoScreenSaver.Properties.Settings.Default.Debug) {
 				lock (PhotoScreenSaver.Properties.Settings.Default) {
-					using (StreamWriter sw = new StreamWriter("PhotoScreenSaver.Log", true)) {
+					using (StreamWriter sw = new StreamWriter("PhotoScreenSaver.log", true)) {
 						sw.WriteLine(s);
 					}
 				}
 			}
 		}
 
-		void Log(string format, params object[] args) {
+		public static void Log(string format, params object[] args) {
 			try {
 				Log(string.Format(format, args));
 			} catch {
@@ -263,7 +275,25 @@ namespace PhotoScreenSaver
         #endregion
 
 		private void MainForm_Load(object sender, EventArgs e) {
-			Bounds = bounds;
+			logControls();
+			if(bounds != Rectangle.Empty)
+				Bounds = bounds;
+			Log("Margin {0}", PhotoScreenSaver.Properties.Settings.Default.Margins);
+			var m = Regex.Match(PhotoScreenSaver.Properties.Settings.Default.Margins, @"(\d+)(?:,(\d+))(?:,(\d+))(?:,(\d+))");
+			if (m.Success) {
+				// Top, Bottom, Left, Right
+				int[] margins = new int[] { 0, 0, 0, 0 };
+				try {
+					for (int i = 0; i < 4; i++) {
+						margins[i] = int.Parse(m.Groups[i + 1].ToString());
+					}
+				} catch {
+				}
+				moveAndShrink(lblFolder, margins[2], margins[0], margins[2] + margins[3]);
+				moveAndShrink(lblName, margins[2], -margins[1], margins[2] + margins[3]);
+				moveAndShrink(lblDate, -margins[3], -margins[1], 0);
+			}
+			logControls();
 			//hide the cursor
 			Cursor.Hide();
 		}
