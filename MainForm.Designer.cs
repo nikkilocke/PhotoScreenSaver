@@ -29,10 +29,12 @@
         private void InitializeComponent()
         {
 			this.pictureBox1 = new System.Windows.Forms.PictureBox();
+			this.panel1 = new System.Windows.Forms.Panel();
 			this.lblDate = new PhotoScreenSaver.BorderLabel();
 			this.lblName = new PhotoScreenSaver.BorderLabel();
 			this.lblFolder = new PhotoScreenSaver.BorderLabel();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+			this.panel1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// pictureBox1
@@ -49,14 +51,26 @@
 			this.pictureBox1.Click += new System.EventHandler(this.MainForm_Click);
 			this.pictureBox1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.MainForm_MouseMove);
 			// 
+			// panel1
+			// 
+			this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.panel1.BackColor = System.Drawing.Color.Transparent;
+			this.panel1.Controls.Add(this.lblDate);
+			this.panel1.Controls.Add(this.lblName);
+			this.panel1.Location = new System.Drawing.Point(0, 759);
+			this.panel1.Name = "panel1";
+			this.panel1.Size = new System.Drawing.Size(805, 40);
+			this.panel1.TabIndex = 4;
+			// 
 			// lblDate
 			// 
-			this.lblDate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.lblDate.BackColor = System.Drawing.Color.Transparent;
 			this.lblDate.BorderColor = System.Drawing.Color.Black;
+			this.lblDate.Dock = System.Windows.Forms.DockStyle.Right;
 			this.lblDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.lblDate.ForeColor = System.Drawing.Color.White;
-			this.lblDate.Location = new System.Drawing.Point(511, 760);
+			this.lblDate.Location = new System.Drawing.Point(511, 0);
 			this.lblDate.Name = "lblDate";
 			this.lblDate.Size = new System.Drawing.Size(294, 40);
 			this.lblDate.TabIndex = 3;
@@ -65,14 +79,14 @@
 			// 
 			// lblName
 			// 
-			this.lblName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.lblName.BackColor = System.Drawing.Color.Transparent;
 			this.lblName.BorderColor = System.Drawing.Color.Black;
+			this.lblName.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.lblName.Font = new System.Drawing.Font("Microsoft Sans Serif", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.lblName.ForeColor = System.Drawing.Color.White;
-			this.lblName.Location = new System.Drawing.Point(0, 760);
+			this.lblName.Location = new System.Drawing.Point(0, 0);
 			this.lblName.Name = "lblName";
-			this.lblName.Size = new System.Drawing.Size(510, 40);
+			this.lblName.Size = new System.Drawing.Size(805, 40);
 			this.lblName.TabIndex = 2;
 			this.lblName.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			this.lblName.Click += new System.EventHandler(this.MainForm_Click);
@@ -87,7 +101,7 @@
 			this.lblFolder.ForeColor = System.Drawing.Color.White;
 			this.lblFolder.Location = new System.Drawing.Point(0, 0);
 			this.lblFolder.Name = "lblFolder";
-			this.lblFolder.Size = new System.Drawing.Size(812, 40);
+			this.lblFolder.Size = new System.Drawing.Size(805, 40);
 			this.lblFolder.TabIndex = 1;
 			this.lblFolder.Click += new System.EventHandler(this.MainForm_Click);
 			this.lblFolder.MouseMove += new System.Windows.Forms.MouseEventHandler(this.MainForm_MouseMove);
@@ -99,8 +113,7 @@
 			this.BackColor = System.Drawing.Color.Black;
 			this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
 			this.ClientSize = new System.Drawing.Size(805, 800);
-			this.Controls.Add(this.lblDate);
-			this.Controls.Add(this.lblName);
+			this.Controls.Add(this.panel1);
 			this.Controls.Add(this.lblFolder);
 			this.Controls.Add(this.pictureBox1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -114,6 +127,7 @@
 			this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyDown);
 			this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.MainForm_MouseMove);
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+			this.panel1.ResumeLayout(false);
 			this.ResumeLayout(false);
 
         }
@@ -122,8 +136,9 @@
 
 		private System.Windows.Forms.PictureBox pictureBox1;
 		private BorderLabel lblFolder;
-		private BorderLabel lblName;
+		private System.Windows.Forms.Panel panel1;
 		private BorderLabel lblDate;
+		private BorderLabel lblName;
 
     }
 }

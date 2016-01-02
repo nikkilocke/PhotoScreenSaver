@@ -53,7 +53,7 @@ namespace PhotoScreenSaver
         public MainForm(Rectangle Bounds)
         {
             InitializeComponent();
-			lblFolder.Parent = lblName.Parent = lblDate.Parent = pictureBox1;
+			lblFolder.Parent = panel1.Parent = pictureBox1;
 			Log("Bounds {0}", Bounds);
 			bounds = Bounds;
         }
@@ -80,7 +80,7 @@ namespace PhotoScreenSaver
         public MainForm(IntPtr PreviewHandle)
         {
             InitializeComponent();
-			lblFolder.Parent = lblName.Parent = lblDate.Parent = pictureBox1;
+			lblFolder.Parent = panel1.Parent = pictureBox1;
 
             //set the preview window as the parent of this window
             SetParent(this.Handle, PreviewHandle);
@@ -99,18 +99,16 @@ namespace PhotoScreenSaver
             IsPreviewMode = true;
 
 			if (this.Size.Width < 600 || this.Size.Height < 400) {
-				tinyLabel(lblFolder, false);
-				tinyLabel(lblName, true);
-				tinyLabel(lblDate, true);
+				panel1.Location = new Point(panel1.Location.X, panel1.Location.Y + panel1.Size.Height - 10);
+				panel1.Size = new Size(panel1.Width, 10);
+				tinyLabel(lblFolder);
+				tinyLabel(lblName);
+				tinyLabel(lblDate);
 			}
         }
 
-		void tinyLabel(BorderLabel l, bool bottom) {
+		void tinyLabel(BorderLabel l) {
 			l.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			int s = 10;
-			if (bottom)
-				l.Location = new Point(l.Location.X, l.Location.Y + l.Size.Height - s);
-			l.Size = new Size(l.Size.Width, s);
 		}
 
         #endregion
@@ -196,6 +194,23 @@ namespace PhotoScreenSaver
 				if (pictureBox1.Image != null)
 					pictureBox1.Image.Dispose();
 				pictureBox1.Image = Image.FromFile(name);
+				DateTime dateCreated = new FileInfo(name).LastWriteTime;
+				// Get the Date Created property 
+				//System.Drawing.Imaging.PropertyItem propertyItem = image.GetPropertyItem( 0x132 );
+				System.Drawing.Imaging.PropertyItem propertyItem
+						 = pictureBox1.Image.PropertyItems.FirstOrDefault(i => i.Id == 0x132);
+				if (propertyItem != null) {
+					// Extract the property value as a String. 
+					System.Text.ASCIIEncoding encoding = new System.Text.ASCIIEncoding();
+					string text = encoding.GetString(propertyItem.Value, 0, propertyItem.Len - 1);
+
+					// Parse the date and time. 
+					System.Globalization.CultureInfo provider = System.Globalization.CultureInfo.InvariantCulture;
+					dateCreated = DateTime.ParseExact(text, "yyyy:MM:d H:m:s", provider);
+				}
+				lblFolder.Text = Path.GetFileName(Path.GetDirectoryName(name));
+				lblDate.Text = dateCreated.Date.ToString("Y");
+				lblName.Text = Path.GetFileNameWithoutExtension(name);
 			});
 		}
 
@@ -290,8 +305,7 @@ namespace PhotoScreenSaver
 				} catch {
 				}
 				moveAndShrink(lblFolder, margins[2], margins[0], margins[2] + margins[3]);
-				moveAndShrink(lblName, margins[2], -margins[1], margins[2] + margins[3]);
-				moveAndShrink(lblDate, -margins[3], -margins[1], 0);
+				moveAndShrink(panel1, margins[2], -margins[1], margins[2] + margins[3]);
 			}
 			logControls();
 			//hide the cursor
