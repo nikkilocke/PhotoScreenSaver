@@ -16,6 +16,7 @@ namespace PhotoScreenSaver {
 			txtTime.Text = PhotoScreenSaver.Properties.Settings.Default.TimePerPic.ToString();
 			txtMargins.Text = PhotoScreenSaver.Properties.Settings.Default.Margins;
 			ckDebug.Checked = PhotoScreenSaver.Properties.Settings.Default.Debug;
+			Text = "PhotoScreenSaver v" + Program.Version;
 		}
 
 		public SettingsForm(IntPtr PreviewHandle)

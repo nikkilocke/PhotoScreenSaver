@@ -217,8 +217,8 @@ namespace PhotoScreenSaver
 		public static void Log(string s) {
 			if (PhotoScreenSaver.Properties.Settings.Default.Debug) {
 				lock (PhotoScreenSaver.Properties.Settings.Default) {
-					using (StreamWriter sw = new StreamWriter("PhotoScreenSaver.log", true)) {
-						sw.WriteLine(s);
+					using (StreamWriter sw = new StreamWriter(Path.GetTempPath() + "PhotoScreenSaver.log", true)) {
+						sw.WriteLine("{0:MM-dd HH:mm:ss}:{1}", DateTime.Now, s);
 					}
 				}
 			}

@@ -18,7 +18,7 @@ namespace PhotoScreenSaver
 				PhotoScreenSaver.Properties.Settings.Default.Folder = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
 				PhotoScreenSaver.Properties.Settings.Default.Save();
 			}
-			MainForm.Log("PhotoScreenSaver {0}", string.Join(" ", args));
+			MainForm.Log("PhotoScreenSaver{0} {1}", Version, string.Join(" ", args));
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 			MainForm.Folders = Directory.EnumerateDirectories(PhotoScreenSaver.Properties.Settings.Default.Folder).Where(d =>
@@ -72,6 +72,14 @@ namespace PhotoScreenSaver
                 screensaver.Show();
             }
 			Application.Run();
+		}
+
+		public static string Version {
+			get {
+				System.Reflection.Assembly assembly = System.Reflection.Assembly.GetEntryAssembly();
+				if (assembly == null) assembly = System.Reflection.Assembly.GetExecutingAssembly();
+				return assembly.GetName().Version.ToString(); 
+			}
 		}
     }
 }
