@@ -18,7 +18,10 @@ namespace PhotoScreenSaver
 				PhotoScreenSaver.Properties.Settings.Default.Folder = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
 				PhotoScreenSaver.Properties.Settings.Default.Save();
 			}
-			MainForm.Log("PhotoScreenSaver{0} {1}", Version, string.Join(" ", args));
+			MainForm.Log("PhotoScreenSaver v{0}", Version);
+			MainForm.Log(Environment.CommandLine);
+			MainForm.Log("Config={0}", AppDomain.CurrentDomain.SetupInformation.ConfigurationFile);
+			MainForm.Log("User={0}", System.Security.Principal.WindowsIdentity.GetCurrent().Name);
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 			MainForm.Folders = Directory.EnumerateDirectories(PhotoScreenSaver.Properties.Settings.Default.Folder).Where(d =>

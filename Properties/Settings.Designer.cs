@@ -37,7 +37,7 @@ namespace PhotoScreenSaver.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("3-10")]
+        [global::System.Configuration.DefaultSettingValueAttribute("2-5")]
         public string PicsPerFolder {
             get {
                 return ((string)(this["PicsPerFolder"]));
@@ -49,7 +49,7 @@ namespace PhotoScreenSaver.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("30")]
+        [global::System.Configuration.DefaultSettingValueAttribute("20")]
         public int TimePerPic {
             get {
                 return ((int)(this["TimePerPic"]));
