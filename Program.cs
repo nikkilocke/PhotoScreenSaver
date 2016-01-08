@@ -34,7 +34,7 @@ namespace PhotoScreenSaver
 						Application.Run(new MainForm(new IntPtr(long.Parse(arg2))));
 						return;
 					case "/b":	// bounds
-						var m = Regex.Match(args[1], @"(\d+)(?:,(\d+))(?:,(\d+))(?:,(\d+))");
+						var m = Regex.Match(arg2, @"(\d+)(?:,(\d+))(?:,(\d+))(?:,(\d+))");
 						if (m.Success) {
 							// Left, Top, Width, Height
 							int[] rect = new int[] { 0, 0, 0, 0 };

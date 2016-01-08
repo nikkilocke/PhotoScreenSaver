@@ -96,9 +96,8 @@ namespace PhotoScreenSaver
             //set our location at (0, 0)
             this.Location = new Point(0, 0);
 
-            IsPreviewMode = true;
-
 			if (this.Size.Width < 600 || this.Size.Height < 400) {
+				IsPreviewMode = true;
 				panel1.Location = new Point(panel1.Location.X, panel1.Location.Y + panel1.Size.Height - 10);
 				panel1.Size = new Size(panel1.Width, 10);
 				tinyLabel(lblFolder);
@@ -109,6 +108,7 @@ namespace PhotoScreenSaver
 
 		void tinyLabel(BorderLabel l) {
 			l.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			l.Height = 10;
 		}
 
         #endregion
@@ -301,9 +301,12 @@ namespace PhotoScreenSaver
 				try {
 					for (int i = 0; i < 4; i++) {
 						margins[i] = int.Parse(m.Groups[i + 1].ToString());
+						if(IsPreviewMode) 
+							margins[i] = margins[i] * 2 / 7;
 					}
 				} catch {
 				}
+				Log("Margins applied {0},{1},{2},{3}", margins[0], margins[0], margins[2], margins[3]);
 				moveAndShrink(lblFolder, margins[2], margins[0], margins[2] + margins[3]);
 				moveAndShrink(panel1, margins[2], -margins[1], margins[2] + margins[3]);
 			}
